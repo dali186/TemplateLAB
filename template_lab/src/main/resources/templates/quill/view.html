@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 상세보기</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="mb-4" th:text="${board.title}">게시글 제목</h1>
+  <div class="mb-3">
+    <label class="fw-bold">작성자:</label>
+    <span th:text="${board.author}">작성자</span>
+  </div>
+  <div class="mb-3">
+    <label class="fw-bold">작성일:</label>
+    <span th:text="${#dates.format(board.createdAt, 'yyyy-MM-dd HH:mm')}">2025-01-16</span>
+  </div>
+  <div class="mb-3">
+    <label class="fw-bold">내용:</label>
+    <p th:text="${board.content}">게시글 내용</p>
+  </div>
+  <div class="mb-3">
+    <label class="fw-bold">첨부파일:</label>
+    <ul>
+      <li th:each="file : ${files}">
+        <a th:href="@{/files/{id}(id=${file.fileId})}" th:text="${file.fileOriginName}"></a>
+      </li>
+    </ul>
+  </div>
+  <a href="/" class="btn btn-secondary">목록으로</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
