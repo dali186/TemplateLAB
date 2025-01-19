@@ -6,7 +6,7 @@
         SELECT * FROM board
     </select>
 
-    <insert id="registerBoard">
+    <insert id="registerBoard" useGeneratedKeys="true" keyProperty="boardId">
         INSERT INTO board (title, content, author, created_at, updated_at)
         VALUES (#{title}, #{content}, #{author}, NOW(), NOW())
     </insert>
@@ -23,4 +23,17 @@
         UPDATED_AT = NOW()
     </update>
 
+    <delete id="deleteBoardById" parameterType="int">
+        DELETE FROM DELETE
+        WHERE BOARD_ID = #{boardId}
+    </delete>
+
+    <select id="getBoardFileList" parameterType="String" resultType="com.dali186.template_lab.quill.dto.BoardFileDto">
+        SELECT * FROM FILE WHERE board_id = CAST(#{boardId} AS SIGNED) AND type = #{type}
+    </select>
+
+    <insert id="registerFile">
+        INSERT INTO FILE (type, board_id, file_origin_name, file_name, file_path, uploaded_at)
+        VALUES (#{type}, #{boardId}, #{fileOriginName}, #{fileName}, #{filePath}, NOW())
+    </insert>
 </mapper>
