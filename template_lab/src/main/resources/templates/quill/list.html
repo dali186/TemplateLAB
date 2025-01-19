@@ -15,7 +15,6 @@
             <th>제목</th>
             <th>작성자</th>
             <th>작성일</th>
-            <th>액션</th>
         </tr>
         </thead>
         <tbody>
@@ -24,9 +23,6 @@
             <td><a th:href="@{/quill/view/{id}(id=${board.boardId})}" th:text="${board.title}"></a></td>
             <td th:text="${board.author}"></td>
             <td th:text="${board.createdAt}"></td>
-            <td>
-                <a th:href="@{/view/{id}(id=${board.boardId})}" class="btn btn-sm btn-primary">보기</a>
-            </td>
         </tr>
         </tbody>
     </table>
