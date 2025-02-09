@@ -4,6 +4,7 @@ import com.dali186.template_lab.quill.dto.BoardDto;
 import com.dali186.template_lab.quill.service.QuillService;
 import com.dali186.template_lab.quill.util.file.FileUploadResult;
 import com.dali186.template_lab.quill.util.file.FileUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,21 @@ public class QuillController {
     public String boardWrite() {
 
         return "/quill/write";
+    }
+
+    /** 게시글 상세 조회 **/
+    @GetMapping("/view/smartEditor/{id}")
+    public String boardViewBySmartEditor(@PathVariable("id") String id, Model model) {
+        model.addAttribute("board", quillService.getBoardById(Integer.parseInt(id)));
+
+        return "/smartEditor2/view";
+    }
+
+    /** 게시글 작성 **/
+    @GetMapping("/smartEditor/write")
+    public String boardWriteBySmartEditor() {
+
+        return "/smartEditor2/write";
     }
 
     /** API **/
@@ -115,6 +131,20 @@ public class QuillController {
         String path = result.getSavedFilePath();
 
         return ResponseEntity.ok().body(path.substring(path.lastIndexOf("\\") + 1));
+    }
+
+    @ResponseBody
+    @PostMapping("/editorFile2")
+    public String editorFileUpload2(@RequestParam("file")MultipartFile multipartFile) throws IOException {
+        String returnUrl = "";
+        FileUploadResult result = fileUtil.uploadFile(multipartFile);
+        String path = result.getSavedFilePath();
+        String fileUUID = path.substring(path.lastIndexOf("\\") + 1);
+
+        returnUrl += "&sFileName=" + path.substring(path.lastIndexOf("\\") + 1);
+        returnUrl += "&sFileURL=/quill/editorFile/" + path.substring(path.lastIndexOf("\\") + 1);
+
+        return returnUrl;
     }
 
     @ResponseBody
